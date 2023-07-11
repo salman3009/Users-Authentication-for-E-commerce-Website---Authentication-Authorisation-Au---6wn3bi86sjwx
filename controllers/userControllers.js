@@ -23,6 +23,23 @@ Post request json file structure
 const loginUser =async (req, res) => {
 
     //Write youe code here.
+    const email = req.body.email;
+    const password = req.body.password;
+
+    const result = await users.find({'email':email});
+    if(result.length){
+        if(bcrypt.compareSync(password,result[0].password)){
+           res.status(200).send(result[0]);
+        }
+        else{
+            res.status(404).send('Invalid Password, try again !!')
+        }
+
+    }
+    else{
+        res.status(404).send('User with this E-mail does not exist !!')
+    }
+
 
 }
 
